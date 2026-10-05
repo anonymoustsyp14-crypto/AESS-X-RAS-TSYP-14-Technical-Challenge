@@ -1,0 +1,11 @@
+string beacon_id
+uint32 beacon_number
+float64 x
+float64 y
+float64 z
+bool deployed
+string previous_beacon_id
+string next_beacon_id
+string event_ids_json
+string navigation_role
+string state_json

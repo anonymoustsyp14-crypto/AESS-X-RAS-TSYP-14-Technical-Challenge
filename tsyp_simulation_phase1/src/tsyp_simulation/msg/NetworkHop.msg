@@ -1,0 +1,13 @@
+string packet_id
+string protocol
+string source_id
+string destination_id
+uint32 hop_index
+uint32 hop_total
+float64 distance_m
+float64 rssi_dbm
+float64 latency_ms
+float64 drop_probability
+bool delivered
+string reason
+string payload_json

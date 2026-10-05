@@ -1,0 +1,10 @@
+string packet_id
+string message_type
+string creator_id
+string source_id
+string destination_id
+string payload_json
+string protocol
+float64 tx_time
+float64 ttl_s
+uint32 hop_count

@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="rescue_building">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.55 0.55 0.55 1</ambient>
+      <background>0.12 0.14 0.18 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 -2 12 0.45 -0.35 0.4</pose>
+      <direction>-0.25 0.15 -1</direction>
+      <diffuse>1 1 0.95 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation><range>40</range><constant>0.8</constant><linear>0.01</linear><quadratic>0.001</quadratic></attenuation>
+    </light>
+    <gui fullscreen="0">
+      <camera name="main_camera"><pose>0 -11 16 0.9 0 0</pose></camera>
+    </gui>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"><render_engine>ogre2</render_engine></plugin>
+
+    <model name="floor"><static>true</static><link name="link">
+      <collision name="c"><geometry><box><size>18 13 0.2</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>18 13 0.2</size></box></geometry>
+        <material><ambient>0.30 0.30 0.32 1</ambient><diffuse>0.38 0.38 0.40 1</diffuse></material>
+      </visual>
+    </link></model>
+
+    <!-- Compact 14 m x 9 m building: large enough for two Waffles, not oversized. -->
+    <model name="wall_north"><static>true</static><pose>0 4.5 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>14 0.25 3</size></box></geometry></collision><visual name="v"><geometry><box><size>14 0.25 3</size></box></geometry><material><ambient>0.30 0.32 0.35 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse></material></visual></link></model>
+    <model name="wall_south"><static>true</static><pose>0 -4.5 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>14 0.25 3</size></box></geometry></collision><visual name="v"><geometry><box><size>14 0.25 3</size></box></geometry><material><ambient>0.30 0.32 0.35 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse></material></visual></link></model>
+    <model name="wall_west"><static>true</static><pose>-7 0 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>0.25 9 3</size></box></geometry></collision><visual name="v"><geometry><box><size>0.25 9 3</size></box></geometry><material><ambient>0.30 0.32 0.35 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse></material></visual></link></model>
+    <model name="wall_east_top"><static>true</static><pose>7 3.0 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>0.25 3 3</size></box></geometry></collision><visual name="v"><geometry><box><size>0.25 3 3</size></box></geometry></visual></link></model>
+    <model name="wall_east_bottom"><static>true</static><pose>7 -3.0 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>0.25 3 3</size></box></geometry></collision><visual name="v"><geometry><box><size>0.25 3 3</size></box></geometry></visual></link></model>
+
+    <!-- Partitions leave generous 1.2 m openings for a 0.4 m Waffle. -->
+    <model name="partition_upper_left"><static>true</static><pose>-2.5 1.35 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>7 0.2 3</size></box></geometry></collision><visual name="v"><geometry><box><size>7 0.2 3</size></box></geometry></visual></link></model>
+    <model name="partition_upper_right"><static>true</static><pose>4.5 1.35 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>2 0.2 3</size></box></geometry></collision><visual name="v"><geometry><box><size>2 0.2 3</size></box></geometry></visual></link></model>
+    <model name="partition_lower"><static>true</static><pose>1.0 -1.45 1.5 0 0 0</pose><link name="l"><collision name="c"><geometry><box><size>8 0.2 3</size></box></geometry></collision><visual name="v"><geometry><box><size>8 0.2 3</size></box></geometry></visual></link></model>
+
+    <model name="fire_hazard"><static>true</static><pose>2.7 3.0 0.2 0 0 0</pose><link name="l">
+      <visual name="core"><pose>0 0 0.35 0 0 0</pose><geometry><sphere><radius>0.30</radius></sphere></geometry><material><ambient>1 0.15 0.01 1</ambient><diffuse>1 0.25 0.01 1</diffuse><emissive>1 0.08 0.005 1</emissive></material></visual>
+      <visual name="flame"><pose>0 0 0.7 0 0 0</pose><geometry><cone><radius>0.18</radius><length>0.7</length></cone></geometry><material><ambient>1 0.65 0.02 1</ambient><diffuse>1 0.65 0.02 1</diffuse><emissive>1 0.25 0.01 1</emissive></material></visual>
+      <light name="fire_light" type="point"><pose>0 0 0.9 0 0 0</pose><diffuse>1 0.2 0.02 1</diffuse><attenuation><range>4</range><constant>0.4</constant><linear>0.2</linear><quadratic>0.08</quadratic></attenuation></light>
+    </link></model>
+    <model name="gas_leak"><static>true</static><pose>4.9 1.0 0.15 0 0 0</pose><link name="l">
+      <visual name="pipe"><geometry><cylinder><radius>0.12</radius><length>0.65</length></cylinder></geometry><material><ambient>0.25 0.25 0.25 1</ambient><diffuse>0.35 0.35 0.35 1</diffuse></material></visual>
+      <visual name="gas"><pose>0.25 0 0.45 0 0 0</pose><geometry><sphere><radius>0.22</radius></sphere></geometry><material><ambient>0.2 0.9 0.35 0.55</ambient><diffuse>0.25 1 0.4 0.55</diffuse><transparency>0.45</transparency></material></visual>
+    </link></model>
+    <model name="victim_marker"><static>true</static><pose>-4.8 0.1 0.14 0 0 0</pose><link name="l">
+      <visual name="body"><geometry><sphere><radius>0.20</radius></sphere></geometry><material><ambient>0.05 0.35 0.9 1</ambient><diffuse>0.08 0.45 1 1</diffuse><emissive>0.02 0.08 0.25 1</emissive></material></visual>
+    </link></model>
+  </world>
+</sdf>

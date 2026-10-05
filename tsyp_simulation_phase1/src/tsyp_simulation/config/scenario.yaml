@@ -1,0 +1,64 @@
+world:
+  name: rescue_building
+  frame: world
+  entrance_gateway: [8.5, 0.0, 1.0]
+  command_post: [10.0, 5.5, 1.0]
+  executor_start: [8.2, 0.0, 0.12]
+
+writer:
+  id: WRITER-01
+  start: [5.8, 0.0]
+  speed_mps: 0.48
+  waypoints:
+    - [5.8, 0.0]
+    - [2.5, 0.0]
+    - [-2.0, 0.0]
+    - [-4.8, 0.0]
+    - [-2.0, 0.0]
+    - [2.5, 0.0]
+    - [2.5, 2.8]
+  beacon_drop_after_waypoint: {}
+  beacon_spacing_m: 2.0
+  max_beacons: 12
+  beacons:
+    - {number: 1, x: 5.8, y: 0.0}
+    - {number: 2, x: 3.8, y: 0.7}
+    - {number: 3, x: -0.5, y: 0.7}
+    - {number: 4, x: -3.0, y: 0.7}
+    - {number: 5, x: -5.2, y: 0.0}
+    - {number: 6, x: 2.7, y: 3.0}
+    - {number: 7, x: -4.8, y: 0.1}
+
+# Every detected event is written into the deepest beacon that is currently available.
+# That beacon then forwards the memory toward #1. Beacon positions are also navigation breadcrumbs.
+events:
+  - {id: EVT-003, type: VICTIM, x: -4.8, y: 0.1, sensor: victim_confidence, value: 0.96}
+  - {id: EVT-002, type: FIRE, x: 2.7, y: 3.0, sensor: temperature_c, value: 83.5}
+
+network:
+  esp_now:
+    max_range_m: 6.0
+    reference_rssi_dbm: -42.0
+    path_loss_db_per_m: 6.0
+    base_latency_ms: 18.0
+    jitter_ms: 8.0
+    base_drop_probability: 0.015
+  lora:
+    max_range_m: 250.0
+    reference_rssi_dbm: -55.0
+    path_loss_db_per_m: 0.55
+    base_latency_ms: 120.0
+    jitter_ms: 30.0
+    base_drop_probability: 0.02
+  return_link:
+    max_range_m: 30.0
+    reference_rssi_dbm: -48.0
+    path_loss_db_per_m: 2.0
+    base_latency_ms: 35.0
+    jitter_ms: 8.0
+    base_drop_probability: 0.01
+
+executor:
+  id: EXECUTOR-01
+  service_offset_m: 0.8
+  speed_mps: 0.48
